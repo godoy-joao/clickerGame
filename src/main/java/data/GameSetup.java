@@ -33,6 +33,7 @@ public class GameSetup {
         return setup;
     }
 
+
     public static void firstSetup() {
         GameData.setLevel(1);
         Enemy.createFile();
@@ -48,9 +49,12 @@ public class GameSetup {
         json.put("currentEnemy", Controller.currentEnemy.getName());
         gameData.put("gameData", json);
         System.out.println(gameData.toJSONString());
-        try (FileWriter file = new FileWriter(GameData.gameDataFileName)) {
-            file.write(gameData.toJSONString());
-            file.flush();
+        try  {
+
+            FileWriter fileWriter = new FileWriter(FileManager.GAME_DATA_PATH);
+            fileWriter.write(gameData.toJSONString());
+            fileWriter.flush();
+            System.out.println(FileManager.GAME_DATA_PATH);
         } catch (IOException e) {
             e.printStackTrace();
         }

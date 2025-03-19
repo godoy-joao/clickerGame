@@ -8,23 +8,14 @@ package data;
 import controls.Controller;
 import entity.Enemy;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javax.imageio.ImageIO;
 
 import main.UtilityTool;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  * @author João Guilherme
@@ -34,7 +25,6 @@ public class GameData {
     private static int level;
     private static LocalDateTime gameTime;
     private static long totalGameSeconds = 0;
-    public static final String gameDataFileName = "gamedata.json";
     public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public static int getLevel() {
@@ -74,12 +64,11 @@ public class GameData {
     }
 
     public static JSONObject checkSave() {
-        JSONObject json = UtilityTool.fileToJson(GameData.gameDataFileName);
-        return json;
+        return UtilityTool.fileToJson(FileManager.GAME_DATA_PATH);
     }
 
     public static void loadData() {
-        JSONObject json = UtilityTool.fileToJson(gameDataFileName);
+        JSONObject json = (JSONObject) UtilityTool.fileToJson(FileManager.GAME_DATA_PATH).get("gameData");
         level = Integer.parseInt(json.get("level").toString());
         try {
             gameTime = (LocalDateTime) LocalDateTime.parse((String) json.get("lastTime"), format);
@@ -92,11 +81,10 @@ public class GameData {
             totalGameSeconds = 0;
         }
         Controller.currentEnemy = new Enemy(Enemy.getEnemyNames().get(new Random().nextInt(Enemy.getEnemyNames().size())));
-        System.out.println("Data found!");
     }
 
     public static void saveData() {
-        JSONObject json = UtilityTool.fileToJson(gameDataFileName);
+        JSONObject json = UtilityTool.fileToJson(FileManager.GAME_DATA_PATH);
         JSONObject gameData = (JSONObject) json.get("gameData");
         gameData.replace("level", getLevel());
         gameData.replace("lastTime", updateGameTime().format(format));
@@ -104,7 +92,7 @@ public class GameData {
         gameData.replace("totalGameSeconds", getTotalElapsedSeconds());
         JSONObject saveFile = new JSONObject();
         saveFile.put("gameData", gameData);
-        UtilityTool.createFile(gameDataFileName, saveFile.toJSONString());
+        UtilityTool.createFile(FileManager.GAME_DATA_PATH, saveFile.toJSONString());
     }
 
 }

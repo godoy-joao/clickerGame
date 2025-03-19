@@ -6,6 +6,7 @@
 package entity;
 
 import controls.Controller;
+import data.FileManager;
 import data.GameData;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -35,7 +36,6 @@ public class Enemy extends Rectangle {
     private Random random = new Random();
     private BufferedImage sprite;
     private boolean boss;
-    public static final String enemyDataFileName = "enemies.json";
 
     public Enemy(String name) {
         this.maxHp = 10 + 5 * random.nextInt(GameData.getLevel()) + random.nextInt(GameData.getLevel() + 1);
@@ -111,7 +111,7 @@ public class Enemy extends Rectangle {
             enemies.put(str, enemy);
         }
         try {
-            FileWriter file = new FileWriter(enemyDataFileName);
+            FileWriter file = new FileWriter(FileManager.ENEMY_DATA_PATH);
             file.write(enemies.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -133,7 +133,7 @@ public class Enemy extends Rectangle {
         long kills = 0;
         JSONParser parser = new JSONParser();
         try {
-            FileReader read = new FileReader(enemyDataFileName);
+            FileReader read = new FileReader(FileManager.ENEMY_DATA_PATH);
             JSONObject json = (JSONObject) parser.parse(read);
             for (String name : getEnemyNames()) {
                 JSONObject enemy = (JSONObject) json.get(name);
@@ -150,7 +150,7 @@ public class Enemy extends Rectangle {
     public static long getKills(String name) {
         long kills = 0;
         try {
-            FileReader read = new FileReader(enemyDataFileName);
+            FileReader read = new FileReader(FileManager.ENEMY_DATA_PATH);
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(read);
             kills = (long) ((JSONObject) json.get(name)).get("killCount");
@@ -166,13 +166,13 @@ public class Enemy extends Rectangle {
 
         JSONParser jParser = new JSONParser();
         try {
-            FileReader read = new FileReader(enemyDataFileName);
+            FileReader read = new FileReader(FileManager.ENEMY_DATA_PATH);
             JSONObject json = (JSONObject) jParser.parse(read);
             JSONObject enemy = (JSONObject) json.get(enemyName);
             long killCount = ((long) enemy.get("killCount")) + 1;
             enemy.replace("killCount", killCount);
             json.replace(enemyName, enemy);
-            FileWriter writer = new FileWriter(enemyDataFileName);
+            FileWriter writer = new FileWriter(FileManager.ENEMY_DATA_PATH);
             writer.write(json.toJSONString());
             writer.flush();
         } catch (IOException e) {

@@ -10,7 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.imageio.ImageIO;
+
 import main.UtilityTool;
 import org.json.simple.JSONObject;
 
@@ -28,15 +28,14 @@ public class Item {
     private double price;
     private BufferedImage icon;
     private boolean unlocked;
-    private boolean activable;
+    private boolean actionable;
     private boolean active;
     private boolean drop;
-    private boolean craftable;
+    private boolean creatable;
     private int level;
     private int maxLevel;
-    public static final String itemDataFileName = "items.json";
 
-    public Item(String id, String name, String description, double damagePoints, double damageMultiplier, double price, boolean activable, boolean drop, boolean craftable, int maxLevel) {
+    public Item(String id, String name, String description, double damagePoints, double damageMultiplier, double price, boolean actionable, boolean drop, boolean creatable, int maxLevel) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -44,10 +43,10 @@ public class Item {
         this.damageMultiplier = damageMultiplier;
         this.price = price;
         this.unlocked = false;
-        this.activable = activable;
+        this.actionable = actionable;
         this.active = false;
         this.drop = drop;
-        this.craftable = craftable;
+        this.creatable = creatable;
         this.level = 1;
         this.maxLevel = maxLevel;
     }
@@ -112,12 +111,12 @@ public class Item {
         this.icon = icon;
     }
 
-    public boolean isActivable() {
-        return activable;
+    public boolean isActionable() {
+        return actionable;
     }
 
-    public void setActivable(boolean activable) {
-        this.activable = activable;
+    public void setActionable(boolean actionable) {
+        this.actionable = actionable;
     }
 
     public boolean isActive() {
@@ -136,12 +135,12 @@ public class Item {
         this.drop = drop;
     }
 
-    public boolean isCraftable() {
-        return craftable;
+    public boolean isCreatable() {
+        return creatable;
     }
 
-    public void setCraftable(boolean craftable) {
-        this.craftable = craftable;
+    public void setCreatable(boolean creatable) {
+        this.creatable = creatable;
     }
 
     public int getLevel() {
@@ -241,15 +240,15 @@ public class Item {
             it.put("damagePoints", i.getDamagePoints());
             it.put("damageMultiplier", i.getDamageMultiplier());
             it.put("price", i.getPrice());
-            it.put("activable", i.isActivable());
+            it.put("activable", i.isActionable());
             it.put("drop", i.isDrop());
-            it.put("craftable", i.isCraftable());
+            it.put("craftable", i.isCreatable());
             it.put("level", i.getLevel());
             it.put("maxLevel", i.getMaxLevel());
             json.put(i.getId(), it);
         }
         try {
-            FileWriter writer = new FileWriter(itemDataFileName);
+            FileWriter writer = new FileWriter(FileManager.ITEM_DATA_PATH);
             writer.write(json.toJSONString());
             writer.flush();
         } catch (IOException e) {
@@ -258,7 +257,7 @@ public class Item {
     }
     
     public static void unlockWeapon(String name) {
-    JSONObject json = UtilityTool.fileToJson(itemDataFileName);
+    JSONObject json = UtilityTool.fileToJson(FileManager.ITEM_DATA_PATH);
     }
 
 }

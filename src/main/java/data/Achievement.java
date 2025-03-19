@@ -8,6 +8,7 @@ package data;
 import entity.Enemy;
 import game.Notification;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,7 +32,6 @@ public class Achievement {
     private int reward;
     private boolean unlocked;
     private BufferedImage icon;
-    public static final String achievementDataFileName = "achievements.json";
 
     public static List<Achievement> getAchievements() {
         List<Achievement> achievements = new ArrayList();
@@ -105,7 +105,7 @@ public class Achievement {
             json.put(achiv.getId(), achievement);
         }
         try {
-            FileWriter writer = new FileWriter(achievementDataFileName);
+            FileWriter writer = new FileWriter(FileManager.ACHIEVEMENT_DATA_PATH);
             JSONObject achievementFile = new JSONObject();
             achievementFile.put("achievements", json);
             writer.write(achievementFile.toJSONString());
@@ -117,7 +117,7 @@ public class Achievement {
 
     public static void tickAchievement() {
         try {
-            FileReader read = new FileReader(achievementDataFileName);
+            FileReader read = new FileReader(FileManager.ACHIEVEMENT_DATA_PATH);
             JSONParser parser = new JSONParser();
             JSONObject achievements = (JSONObject) ((JSONObject) parser.parse(read)).get("achievements");
             for (Achievement acv : getAchievements()) {
@@ -393,7 +393,7 @@ public class Achievement {
     public static List<Achievement> getAllAchievements() {
         List<Achievement> achievements = new ArrayList();
 
-        JSONObject json = UtilityTool.fileToJson(achievementDataFileName);
+        JSONObject json = UtilityTool.fileToJson(FileManager.ACHIEVEMENT_DATA_PATH);
         JSONObject allAchievementsJson = (JSONObject) json.get("achievements");
         for (Achievement achievement : getAchievements()) {
             JSONObject achievementsJson = (JSONObject) allAchievementsJson.get(achievement.getId());
@@ -407,14 +407,14 @@ public class Achievement {
     public static List<Achievement> getUnlockedAchievements() {
         List<Achievement> achievements = new ArrayList();
 
-        JSONObject json = UtilityTool.fileToJson(achievementDataFileName);
+        JSONObject json = UtilityTool.fileToJson(FileManager.ACHIEVEMENT_DATA_PATH);
 
         return achievements;
     }
 
     public static void unlockAchievement(String id) {
 
-        JSONObject json = UtilityTool.fileToJson(achievementDataFileName);
+        JSONObject json = UtilityTool.fileToJson(FileManager.ACHIEVEMENT_DATA_PATH);
         JSONObject achievement = (JSONObject) json.get("achievements");
         JSONObject unlockKey = (JSONObject) achievement.get(id);
         unlockKey.replace("unlocked", true);
@@ -422,7 +422,7 @@ public class Achievement {
         json.replace("achievements", achievement);
 
         try {
-            FileWriter writer = new FileWriter(achievementDataFileName);
+            FileWriter writer = new FileWriter(FileManager.ACHIEVEMENT_DATA_PATH);
             writer.write(json.toJSONString());
             writer.flush();
         } catch (IOException e) {
