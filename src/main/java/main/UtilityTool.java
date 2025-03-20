@@ -22,7 +22,6 @@ import org.json.simple.parser.ParseException;
 public class UtilityTool {
 
     public BufferedImage getImage(String path) {
-        System.out.println("UtilityTool getImage()");
         BufferedImage image = null;
         try {
             image = ImageIO.read(getClass().getResourceAsStream(path));
@@ -33,7 +32,6 @@ public class UtilityTool {
     }
 
     public BufferedImage scaleImage(BufferedImage original, int width, int height) {
-        System.out.println("UtilityTool scaleImage()");
         BufferedImage scaledImage = new BufferedImage(width, height, original.getType());
         Graphics2D g2 = scaledImage.createGraphics();
         g2.drawImage(original, 0, 0, width, height, null);
@@ -43,7 +41,6 @@ public class UtilityTool {
     }
 
     public static JSONObject fileToJson(String path) {
-        System.out.println("UtilityTool fileToJson()");
         JSONObject json = new JSONObject();
         try {
             FileReader reader = new FileReader(path);
@@ -58,7 +55,6 @@ public class UtilityTool {
     }
 
     public static void createFile(String name, String data) {
-        System.out.println("Utility Tool  createFile()");
         try {
             FileWriter file = new FileWriter(name);
             file.write(data);

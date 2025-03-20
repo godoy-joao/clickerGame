@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Random;
 
+import game.component.ComponentManager;
 import org.json.simple.JSONObject;
 
 /**
@@ -23,18 +24,20 @@ public class GameSetup {
     public synchronized static boolean setup() {
     boolean setup = false;
         try {
+            System.out.println("Run");
+            ComponentManager.addComponents();
+            FileManager.initialize();
             GameData.loadData();
             setup = true;
         } catch (Exception e) {
-            System.out.println("No save found!");
-            firstSetup();
-            GameData.loadData();
+            e.printStackTrace();
         }
         return setup;
     }
 
 
     public static void firstSetup() {
+
         GameData.setLevel(1);
         Enemy.createFile();
         Achievement.createFile();

@@ -9,6 +9,8 @@ import static controls.Controller.currentEnemy;
 import data.Achievement;
 import data.Player;
 import game.Notification;
+import game.component.ComponentManager;
+
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.FocusEvent;
@@ -58,6 +60,7 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
     public void mouseClicked(MouseEvent e) {
         Player.updateClicks();
         Notification.addNotification("Conquista desbloqueada!", "teste");
+        ComponentManager.checkIfComponentWasClicked(mousePosition).onClick();
     }
 
     @Override
