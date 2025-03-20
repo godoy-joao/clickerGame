@@ -5,7 +5,10 @@
  */
 package game.component;
 
+import game.component.button.ShopTab;
+
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,5 +25,12 @@ public class ComponentManager {
             if (c.contains(mousePos)) comp = c;
         }
         return comp;
+    }
+
+    public static void addComponents() {
+        gameComponents = new ArrayList<>();
+      ShopTab st = new ShopTab(new ShopTab().getRectangle());
+      st.addToComponentManager();
+        System.out.println(st.getBounds());
     }
 }

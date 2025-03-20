@@ -11,10 +11,21 @@ import java.awt.Rectangle;
  *
  * @author João Guilherme
  */
-public class Component extends Rectangle{
+public abstract class Component extends Rectangle{
     
     private boolean enabled;
-    
+
+    public Component(Rectangle r) {
+    this.x = r.x;
+    this.y = r.y;
+    this.height = r.height;
+    this.width = r.width;
+    }
+
+    public Component() {
+
+    }
+
     public void addToComponentManager() {
         ComponentManager.gameComponents.add(this);
     }
@@ -30,5 +41,9 @@ public class Component extends Rectangle{
     public boolean isEnabled() {
         return enabled;
     }
+
+    public abstract void onClick();
+
+    public abstract Rectangle getRectangle();
    
 }
