@@ -59,7 +59,6 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
     @Override
     public void mouseClicked(MouseEvent e) {
         Player.updateClicks();
-        Notification.addNotification("Conquista desbloqueada!", "teste");
         ComponentManager.checkIfComponentWasClicked(mousePosition).onClick();
     }
 

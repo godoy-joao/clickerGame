@@ -12,6 +12,8 @@ import data.Achievement;
 import data.GameSetup;
 import game.GameState;
 import game.Notification;
+import game.component.ComponentManager;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -112,6 +114,7 @@ public class Display extends JPanel implements Runnable {
         g2.fillRect(0, 0, WIDTH, HEIGHT);
         g2.setColor(Color.red);
         try {
+            ComponentManager.drawComponents(g2);
             g2.setFont(new Font("Arial", Font.PLAIN, 30));
             g2.drawString(Integer.toString(fps), 30, 50);
             g2.drawString(Controller.currentEnemy.getName(), (int) Controller.currentEnemy.getX() + 10, (int) Controller.currentEnemy.getY() - 30);

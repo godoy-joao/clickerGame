@@ -6,6 +6,7 @@
 package game.component;
 
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -14,12 +15,22 @@ import java.awt.Rectangle;
 public abstract class Component extends Rectangle{
     
     private boolean enabled;
+    private BufferedImage sprite;
 
-    public Component(Rectangle r) {
+    public Component(Rectangle r, BufferedImage img) {
     this.x = r.x;
     this.y = r.y;
     this.height = r.height;
     this.width = r.width;
+    this.sprite = img;
+    }
+
+    public BufferedImage getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(BufferedImage bi) {
+        this.sprite = bi;
     }
 
     public Component() {
